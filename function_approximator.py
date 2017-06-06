@@ -1,30 +1,22 @@
 import numpy as np
-import pandas as pd
-from sklearn.svm import SVR
 from sklearn.model_selection import GridSearchCV
+from sklearn.kernel_ridge import KernelRidge
 
-test_array = np.array([[1, 1], [2, 4], [3, 9], [4, 16], [5, 25], [6, 36]]) #a test dataset representing y = x^2
+def predict_degrees(x, y):
+    """
+    predict how many degrees are represented by polynomial data
+    """
+    params = {'degree': [2, 3, 4, 5]}
+    model = KernelRidge(kernel = 'poly')
+    classifier = GridSearchCV(model, params)
+    classifier.fit(X_data, y_data)
+    best_params = classifier.best_params_
+    degree = best_params['degree']
+    return degree
 
-X_data = test_array.T[0].reshape(test_array.shape[0], 1)
-y_data = test_array.T[1]
-
-params = {'kernel': ['rbf', 'linear', 'poly', 'sigmoid'], 'degree': [1, 2, 3, 4], 'C': [0.01, 0.1, 1], 'gamma': [1]}
-classifier = GridSearchCV(model, params) #gridsearchCV searching through the above parameters
-classifier.fit(X_data, y_data) #fit to the data
-best_params = classifier.best_params_ #find the best parameters
-
-model = SVR(degree = best_params['degree'], kernel = best_params['kernel'], C = best_params['C'], gamma = best_params['gamma']) #initialize a SVR model (support vector regression)
-
-model.fit(X_data, y_data)
-
-print(model.predict(np.array([[7]]))) #prints ~48.83
-
-###POLYNOMIAL ESTIMATOR
 def predict_function(x, y, degree):
     x = x.reshape(x.shape[0], )
-    print(len(x))
-    print(len(y))
-    poly = np.polyfit(x = x, y = y_data, deg = degree)
+    poly = np.polyfit(x = x, y = y, deg = degree)
     string = 'Function: '
     total = degree
     for i in range(degree + 1):
@@ -32,3 +24,18 @@ def predict_function(x, y, degree):
             string = string + " + x^{} * {}".format(total, round(poly[i], 2))
         total -= 1
     return string
+
+#test it
+X_data = np.array( [-1.2, -0.01, 1.23, 1.8, 20, 21, 22, 23.1, 123])
+X_data = X_data.reshape(X_data.shape[0], 1)
+y_data = np.array([526.8246347954033,
+ 16.934384611296693,
+ 34.90225474157847,
+ 53.19035775656099,
+ 1041679.9259436745,
+ 1293754.150079261,
+ 1588916.0855719403,
+ 1968905.8269523252,
+ 2121261427.2929053])
+
+print(predict_function(X_data, y_data, predict_degrees(X_data, y_data)))
