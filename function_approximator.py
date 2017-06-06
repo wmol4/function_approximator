@@ -18,3 +18,17 @@ model = SVR(degree = best_params['degree'], kernel = best_params['kernel'], C = 
 model.fit(X_data, y_data)
 
 print(model.predict(np.array([[7]]))) #prints ~48.83
+
+###POLYNOMIAL ESTIMATOR
+def predict_function(x, y, degree):
+    x = x.reshape(x.shape[0], )
+    print(len(x))
+    print(len(y))
+    poly = np.polyfit(x = x, y = y_data, deg = degree)
+    string = 'Function: '
+    total = degree
+    for i in range(degree + 1):
+        if round(poly[i], 2) != 0.:
+            string = string + " + x^{} * {}".format(total, round(poly[i], 2))
+        total -= 1
+    return string
