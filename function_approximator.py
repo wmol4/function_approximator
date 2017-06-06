@@ -38,4 +38,5 @@ y_data = np.array([526.8246347954033,
  1968905.8269523252,
  2121261427.2929053])
 
-print(predict_function(X_data, y_data, predict_degrees(X_data, y_data)))
+print(predict_function(X_data, y_data, predict_degrees(X_data, y_data))) #prints: Function:  + x^4 * 9.87 + x^3 * -75.4 + x^2 * 169.14 + x^1 * -97.05 + x^0 * 16.03
+#the data above actually represents:  π^2 x^4 - 24 π x^3 + 8 π x^2 + 144 x^2 - 97 x + 16
