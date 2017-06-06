@@ -21,7 +21,12 @@ def predict_function(x, y, degree):
     total = degree
     for i in range(degree + 1):
         if round(poly[i], 2) != 0.:
-            string = string + " + x^{} * {}".format(total, round(poly[i], 2))
+            if len(string) == 10:
+                string = string + "{}*x^{}".format(round(poly[i], 2), total)
+            elif total == 0:
+                string = string + " + {}".format(round(poly[i], 2))
+            else:
+                string = string + " + {}*x^{}".format(round(poly[i], 2), total)
         total -= 1
     return string
 
