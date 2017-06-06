@@ -6,7 +6,7 @@ def predict_degrees(x, y):
     """
     predict how many degrees are represented by polynomial data
     """
-    params = {'degree': [2, 3, 4, 5]}
+    params = {'degree': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
     model = KernelRidge(kernel = 'poly')
     classifier = GridSearchCV(model, params)
     classifier.fit(X_data, y_data)
